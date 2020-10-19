@@ -1,0 +1,59 @@
+.language-switch {
+  position: relative;
+  display: inline-block;
+  width: 160px;
+  height: 34px;
+
+  &--margin {
+    margin-right: 10px;
+  }
+}
+
+.language-switch__input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.language-switch-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.language-switch-slider:before {
+  position: absolute;
+  content: "Русский";
+  font-family: 'Oswald', sans-serif;
+  text-align: center;
+  line-height: 22px;
+  height: 26px;
+  width: 70px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.language-switch__input:checked + .language-switch-slider:before {
+  content: "Английский";
+  width: 90px;
+  -webkit-transform: translateX(63px);
+  -ms-transform: translateX(63px);
+  transform: translateX(63px);
+}
+
+.language-switch-slider.round {
+  border-radius: 34px;
+}
+
+.language-switch-slider.round:before {
+  border-radius: 20px;
+}

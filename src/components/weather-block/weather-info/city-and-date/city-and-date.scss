@@ -1,0 +1,60 @@
+.city-and-date {
+  p {
+    margin: 0;
+    padding: 0;
+  }
+
+  &--margin {
+    margin-bottom: 40px;
+  }
+}
+
+.place-info {
+  display: flex;
+  font-size: 60px;
+
+  &--padding {
+    padding: 0 20px 20px 0px;
+  }
+
+  p {
+    padding-right: 7px;
+  }
+
+  &__country {
+
+  }
+
+  &__flag {
+
+  }
+}
+
+.date-info {
+  display: flex;
+  font-size: 30px;
+
+  &--padding {
+    padding: 0 20px 20px 0px;
+  }
+
+  p {
+    padding-right: 7px;
+  }
+
+  &__week-day {
+
+  }
+
+  &__date {
+
+  }
+
+  &__month {
+
+  }
+
+  &__time {
+
+  }
+}

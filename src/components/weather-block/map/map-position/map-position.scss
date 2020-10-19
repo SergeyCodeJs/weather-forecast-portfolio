@@ -1,0 +1,13 @@
+.map-position {
+  margin-left: 10px;
+}
+
+.map-position__latitude, .map-position__longitude {
+  display: flex;
+
+  &--margin {
+    p {
+      margin-right: 5px;
+    }
+  }
+}

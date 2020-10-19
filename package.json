@@ -18,10 +18,12 @@
   "author": "Sergey Stekh <sergeysteh@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/SergeyCodeJs/weather-forecast-portfolio/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/SergeyCodeJs/weather-forecast-portfolio#readme",
+  "homepage": "https://github.com/SergeyCodeJs/weather-forecast-portfolio",
   "devDependencies": {
-    "parcel-bundler": "^1.12.4"
-  }
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.27.0"
+  },
+  "dependencies": {}
 }

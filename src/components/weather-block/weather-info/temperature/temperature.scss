@@ -1,0 +1,29 @@
+.temperature-overcast__wrapper {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.temperature {
+    display: flex;
+
+    &--margin {
+      margin-right: 100px;
+    }
+
+    p {
+      margin: 0;
+      padding: 0;
+    }
+
+
+    &__number {
+        font-size: 200px;
+    }
+
+    &__sign {
+      font-size: 200px;
+        }
+
+    &__img {
+        }
+}

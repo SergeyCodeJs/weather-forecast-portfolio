@@ -1,0 +1,36 @@
+.overcast {
+    font-size: 20px;
+    min-width: 170px;
+
+    &__title {
+        font-size: 30px;
+        font-weight: 700;
+
+        &--margin {
+          margin: 40px 0 10px 0;
+        }
+    }
+
+    &__feels-like {
+        display: flex;
+        justify-content: space-between;
+
+        &--margin {
+          margin: 0 0 10px 0;
+        }
+    }
+
+    &__wind {
+        display: flex;
+        justify-content: space-between;
+
+        &--margin {
+          margin: 0px 0 10px 0;
+        }
+    }
+
+    &__humidity {
+        display: flex;
+        justify-content: space-between;
+    }
+}
