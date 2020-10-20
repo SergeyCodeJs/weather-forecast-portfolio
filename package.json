@@ -21,6 +21,7 @@
     "url": ""
   },
   "homepage": "https://github.com/SergeyCodeJs/weather-forecast-portfolio",
+  "browserslist": [ "last 2 Chrome versions" ],
   "devDependencies": {
     "parcel-bundler": "^1.12.4",
     "sass": "^1.27.0"

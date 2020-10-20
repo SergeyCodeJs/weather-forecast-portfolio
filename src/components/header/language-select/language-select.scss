@@ -1,7 +1,7 @@
 .language-switch {
   position: relative;
   display: inline-block;
-  width: 160px;
+  width: 65px;
   height: 34px;
 
   &--margin {
@@ -29,25 +29,25 @@
 
 .language-switch-slider:before {
   position: absolute;
-  content: "Русский";
+  content: url('/assets/img/russian-flag.png');
   font-family: 'Oswald', sans-serif;
   text-align: center;
   line-height: 22px;
   height: 26px;
-  width: 70px;
-  left: 4px;
+  width: 27px;
+  left: 7px;
   bottom: 4px;
-  background-color: white;
+  background-color: #ccc;
   -webkit-transition: .4s;
   transition: .4s;
 }
 
 .language-switch__input:checked + .language-switch-slider:before {
-  content: "Английский";
-  width: 90px;
-  -webkit-transform: translateX(63px);
-  -ms-transform: translateX(63px);
-  transform: translateX(63px);
+  content: url('/assets/img/english-flag.png');
+  width: 20px;
+  -webkit-transform: translateX(27px);
+  -ms-transform: translateX(27px);
+  transform: translateX(27px);
 }
 
 .language-switch-slider.round {
