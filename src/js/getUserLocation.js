@@ -23,7 +23,7 @@ class GetUserLocation {
     }
 
     transformData(data) {
-        const {city, country, loc, region} = data;
+        const {city, loc} = data;
         
         const [latitude,
             longitude] = [
@@ -31,7 +31,7 @@ class GetUserLocation {
             loc.substring(loc.indexOf(',') + 1, loc.length)
         ];
 
-        return {city, country, latitude, longitude, region}
+        return {city, latitude, longitude}
     }
 }
 

@@ -13,47 +13,90 @@ import renderMapContainer from '../components/weather-block/map/mapboxgl/renderM
 import renderMapPosition from '../components/weather-block/map/map-position/renderMapPosition'
 
 class App {
-    constructor(rootElement, State, GetWeather, GetUserLocation) {
+    constructor(rootElement, State, GetWeather, GetUserLocation, GetUserLocationByCoordinatesOrCity) {
         this.rootElement = document.getElementById(rootElement);
         this.State = State;
         this.GetUserLocation = GetUserLocation;
+        this.GetUserLocationByCoordinatesOrCity = GetUserLocationByCoordinatesOrCity;
         this.GetWeather = GetWeather;
     }
 
     init() {
-      this.clearHTML();
-      this.buildHtmlStructure();
-      if (!this.state) {
-        this.initializeObjects();
-      }
-      console.log(this.state)
-      this.renderHeader.init(this.state);
-      this.renderWeatherInfo.init(this.state);
-      this.renderMap.init(this.state);
+        this.clearHTML();
+        this.buildHtmlStructure();
+        if (!this.state) {
+            this.initializeObjects();
+        }
+        console.log(this.state)
+        this.getLocationWeatherAndMap(); 
+    }
+
+    render() {
+      this
+          .renderHeader
+          .init(this.state);
+      this
+          .renderWeatherInfo
+          .init(this.state);
+      this
+          .renderMap
+          .init(this.state);
+    }
+
+    async getLocationWeatherAndMap() {
+      const locationData = await this.getUserLocation.getData();
+      const {city} = locationData;
+      const coordinatesAndCityData = await this.GetUserLocationByCoordinatesOrCity.fetchDataByCity(city);
+      this.updateStateUserLocation(coordinatesAndCityData);
+      const weatherData = await this.getWeatherData();
+      this.updateStateWeatherData(weatherData);
+      this.render()
+    }
+
+    getWeatherData() {
+        const {latitude, longitude} = this.state.mapPosition;
+        return this
+            .getWeather
+            .fetchCoordinates(latitude, longitude)
     }
 
     initializeObjects() {
-      this.state = new this.State();
-      this.getUserLocation = new this.GetUserLocation('54320681efd518', 'https://ipinfo.io');
-      this.getWeather = new this.GetWeather('b05c920590c87fb09069daaf6be357ec', 'https://api.darksky.net/forecast');
-      this.renderHeader = new RenderHeader('.header__left-wrapper','.search-bar', renderSelectLanguage, renderTemperatureTypeSelect, renderSearchBar),
-      this.renderWeatherInfo = new RenderWeatherInfo('.weather-info', '.temperature-overcast__wrapper', renderCityAndDate, renderTemperature, renderOvercast, renderThreeDaysForecast);
-      this.renderMap = new RenderMap('.map-wrapper', renderMapContainer, renderMapPosition)
+        this.state = new this.State();
+
+        this.getUserLocation = new this.GetUserLocation('54320681efd518', 'https://ipinfo.io');
+
+        this.getWeather = new this.GetWeather('b05c920590c87fb09069daaf6be357ec', 'https://api.darksky.net/forecast/');
+
+        this.GetUserLocationByCoordinatesOrCity = new this.GetUserLocationByCoordinatesOrCity('https://api.opencagedata.com/geocode/v1/json?q=$', '5450c6c713e04fbb9b443ba897d980bf', "", "", this.state.lang);
+
+        this.renderHeader = new RenderHeader('.header__left-wrapper', '.search-bar', renderSelectLanguage, renderTemperatureTypeSelect, renderSearchBar),
+
+        this.renderWeatherInfo = new RenderWeatherInfo('.weather-info', '.temperature-overcast__wrapper', renderCityAndDate, renderTemperature, renderOvercast, renderThreeDaysForecast);
+
+        this.renderMap = new RenderMap('.map-wrapper', renderMapContainer, renderMapPosition)
     }
 
     clearHTML() {
-      this.rootElement.innerHTML = "";
+        this.rootElement.innerHTML = "";
     }
 
     buildHtmlStructure() {
-        this.rootElement.insertAdjacentHTML('beforeend', getInitialHTMLStructure()) 
+        this
+            .rootElement
+            .insertAdjacentHTML('beforeend', getInitialHTMLStructure())
     }
 
-    updateState(propName, data) {
+    updateStateUserLocation(data) {
         this
             .state
-            .setState(propName, data);
+            .setUserLocationState(data);
     }
+
+    updateStateWeatherData(data) {
+      this
+          .state
+          .setWeatherState(data);
+  }
 }
 
 export default App
