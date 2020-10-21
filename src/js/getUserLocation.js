@@ -15,11 +15,9 @@ class GetUserLocation {
         }
     }
 
-    getData() {
-        const data = this
-            .fetchCoordinates().then(data => this.transformData(data));
-
-        return data
+    async getData() {
+        const data = await this.fetchCoordinates();
+        return this.transformData(data);
     }
 
     transformData(data) {

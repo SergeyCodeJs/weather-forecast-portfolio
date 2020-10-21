@@ -22,7 +22,7 @@ class GetWeather {
         }
     }
 
-    async transformData(data) {
+    transformData(data) {
         const todayWeather = {
             temperature: convertFarToCel(data.currently.temperature),
             weatherType: data.currently.icon

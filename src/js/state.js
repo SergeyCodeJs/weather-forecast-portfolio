@@ -59,26 +59,29 @@ class State {
         [this.userLocation.city, this.userLocation.flag, this.userLocation.country] = [city, flag, country]
     }
 
-   setWeatherState(data) {
-    const {daysOvercast, todayWeather, overcast} = data;
-    this.daysOvercast = daysOvercast;
-    this.todayWeather = {...this.todayWeather, ...todayWeather};
-    this.overcast = overcast;
-    console.log(this.daysOvercast)
-   }
+    setWeatherState(data) {
+        const {daysOvercast, todayWeather, overcast} = data;
+        this.daysOvercast = daysOvercast;
+        this.todayWeather = {
+            ...this.todayWeather,
+            ...todayWeather
+        };
+        this.overcast = overcast;
+        console.log(this.daysOvercast)
+    }
 
     getState() {
         return {
-          loading: this.loading,
-          lang: this.lang,
-          temperatureType: this.temperatureType,
-          userLocation: this.userLocation,
-          todayWeather: this.todayWeather,
-          dateData: this.dateData,
-          time: this.time,
-          mapPosition: this.mapPosition,
-          overcast: this.overcast,
-          daysOvercast: this.daysOvercast
+            loading: this.loading,
+            lang: this.lang,
+            temperatureType: this.temperatureType,
+            userLocation: this.userLocation,
+            todayWeather: this.todayWeather,
+            dateData: this.dateData,
+            time: this.time,
+            mapPosition: this.mapPosition,
+            overcast: this.overcast,
+            daysOvercast: this.daysOvercast
         }
     }
 }
