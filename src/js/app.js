@@ -9,16 +9,16 @@ import renderTemperature from '../components/weather-block/weather-info/temperat
 import renderOvercast from '../components/weather-block/weather-info/overcast/renderOvercast'
 import renderThreeDaysForecast from '../components/weather-block/weather-info/three-days-forecast/renderThreeDaysForecast'
 import RenderMap from '../components/weather-block/map/renderMap'
-import renderMapContainer from '../components/weather-block/map/mapboxgl/renderMapContainer'
 import renderMapPosition from '../components/weather-block/map/map-position/renderMapPosition'
 
 class App {
-    constructor(rootElement, State, GetWeather, GetUserLocation, GetUserLocationByCoordinatesOrCity) {
+    constructor(rootElement, State, GetWeather, GetUserLocation, GetUserLocationByCoordinatesOrCity, GetMap) {
         this.rootElement = document.getElementById(rootElement);
         this.State = State;
         this.GetUserLocation = GetUserLocation;
         this.GetUserLocationByCoordinatesOrCity = GetUserLocationByCoordinatesOrCity;
         this.GetWeather = GetWeather;
+        this.GetMap = GetMap;
     }
 
     init() {
@@ -46,10 +46,11 @@ class App {
     async getLocationWeatherAndMap() {
       const locationData = await this.getUserLocation.getData();
       const {city} = locationData;
-      const coordinatesAndCityData = await this.GetUserLocationByCoordinatesOrCity.fetchDataByCity(city);
+      const coordinatesAndCityData = await this.getUserLocationByCoordinatesOrCity.fetchDataByCity(city);
       this.updateStateUserLocation(coordinatesAndCityData);
       const weatherData = await this.getWeatherData();
       this.updateStateWeatherData(weatherData);
+      this.getMap.loadMap(this.state.mapPosition.longitude, this.state.mapPosition.latitude)
       this.render()
     }
 
@@ -67,13 +68,15 @@ class App {
 
         this.getWeather = new this.GetWeather('b05c920590c87fb09069daaf6be357ec', 'https://api.darksky.net/forecast/');
 
-        this.GetUserLocationByCoordinatesOrCity = new this.GetUserLocationByCoordinatesOrCity('https://api.opencagedata.com/geocode/v1/json?q=$', '5450c6c713e04fbb9b443ba897d980bf', "", "", this.state.lang);
+        this.getUserLocationByCoordinatesOrCity = new this.GetUserLocationByCoordinatesOrCity('https://api.opencagedata.com/geocode/v1/json?q=$', '5450c6c713e04fbb9b443ba897d980bf', "", "", this.state.lang);
+
+        this.getMap = new this.GetMap('pk.eyJ1Ijoic2VyZ2V5c3Rla2giLCJhIjoiY2szaHBxamRhMDA0cjNjbXd4Z3JsY2UxciJ9.ByzscoPmD9B153xscOTnww', 'map', 'mapbox://styles/mapbox/streets-v11', 10, "", "");
 
         this.renderHeader = new RenderHeader('.header__left-wrapper', '.search-bar', renderSelectLanguage, renderTemperatureTypeSelect, renderSearchBar),
 
         this.renderWeatherInfo = new RenderWeatherInfo('.weather-info', '.temperature-overcast__wrapper', renderCityAndDate, renderTemperature, renderOvercast, renderThreeDaysForecast);
 
-        this.renderMap = new RenderMap('.map-wrapper', renderMapContainer, renderMapPosition)
+        this.renderMap = new RenderMap('.map-wrapper', renderMapPosition)
     }
 
     clearHTML() {

@@ -3,7 +3,7 @@ import translateWeekDay from '../../../../utils/translateWeekDay'
 function renderThreeDaysForecast({daysOvercast, lang, temperatureType}) {
   const [tomorrow, afterTomorrow, afterAfterTomorrow] = daysOvercast;
   const temperatureSign = temperatureType === "C" ? '°C' : '°F';
-  console.log(tomorrow)
+  
   const content = `
   <div class=three-days-forecast>
     <div class="day day--margin">

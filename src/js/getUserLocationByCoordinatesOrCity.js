@@ -1,3 +1,5 @@
+import getExactCoordinates from "../utils/getExactCoordinates";
+
 class GetUserLocationByCoordinatesOrCity {
     constructor(url, token, latitude, longitude, lang) {
         this.url = url;
@@ -40,10 +42,15 @@ class GetUserLocationByCoordinatesOrCity {
             flagInfo] = [firstCityResults.geometry, firstCityResults.components, firstCityResults.annotations];
 
         const {lat: latitude, lng: longitude} = coordinatesInfo;
-        const {town: city, country} = placeInfo;
-        const {flag} = flagInfo;
+        
+        const {latitudeMinutes, latitudeSeconds, longitudeMinutes, longitudeSeconds} = getExactCoordinates(latitude, longitude)
+        
+        let {town: city, country} = placeInfo;
+        if(!city) city = placeInfo.city;
 
-        return {latitude, longitude, city, country, flag}
+        const {flag} = flagInfo;
+          
+        return {latitude, longitude, city, country, flag, latitudeMinutes, latitudeSeconds, longitudeMinutes, longitudeSeconds}
     }
 }
 

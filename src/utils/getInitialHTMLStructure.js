@@ -8,7 +8,9 @@ export default () => `<div class="page-wrapper">
       <div class="weather-info">
         <div class="temperature-overcast__wrapper"></div>
       </div> 
-      <div class="map-wrapper"></div>
+      <div class="map-wrapper">
+      <div class="map map--margin" id="map"></div>
+      </div>
     </div>
     </div>
 </div>

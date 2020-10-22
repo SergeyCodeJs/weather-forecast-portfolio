@@ -1,6 +1,5 @@
-export default function translateWeekDay(dayNumber, language) {
+export default (dayNumber, language) => {
   let result;
-
   switch(dayNumber) {
     case 1: result = language === "Ru" ? "Понедельник" : "Monday"
     break;

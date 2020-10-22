@@ -54,9 +54,18 @@ class State {
         this[propName] = data;
     }
 
-    setUserLocationState({latitude, longitude, city, country, flag}) {
-        [this.mapPosition.latitude, this.mapPosition.longitude] = [latitude, longitude];
-        [this.userLocation.city, this.userLocation.flag, this.userLocation.country] = [city, flag, country]
+    setUserLocationState({latitude, longitude, city, country, flag, latitudeMinutes, latitudeSeconds, longitudeMinutes, longitudeSeconds}) {
+        this.mapPosition = {
+          latitude,
+          longitude,
+          latitudeMinutes,
+          latitudeSeconds,
+          longitudeMinutes,
+          longitudeSeconds,
+        }
+        this.userLocation = {
+          city, flag, country
+        }
     }
 
     setWeatherState(data) {
@@ -67,7 +76,6 @@ class State {
             ...todayWeather
         };
         this.overcast = overcast;
-        console.log(this.daysOvercast)
     }
 
     getState() {

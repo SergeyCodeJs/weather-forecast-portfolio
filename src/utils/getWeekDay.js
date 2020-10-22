@@ -1,4 +1,4 @@
-export default function getWeekDay() {
+export default () => {
     let today = new Date().getUTCDay();
     let tomorrow,
         afterTomorrow,
