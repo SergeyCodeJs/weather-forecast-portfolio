@@ -1,18 +1,19 @@
 class RenderMap {
   constructor(rootElementClass, renderMapPosition) {
-    this.rootElement = document.querySelector(rootElementClass);
+    this.rootElementClass = rootElementClass;
     this.renderMapPosition = renderMapPosition;
   }
 
   getData() {
-    this.renderMapPosition = this.renderMapPosition(this.state);
+    this.mapPositionContent = this.renderMapPosition(this.state);
   }
 
   renderData() {
-    this.rootElement.insertAdjacentHTML('beforeend', this.renderMapPosition);
+    this.rootElement.insertAdjacentHTML('beforeend', this.mapPositionContent);
   }
 
   init(state) {
+    this.rootElement = document.querySelector(this.rootElementClass);
     this.state = state;
     this.getData();
     this.renderData();

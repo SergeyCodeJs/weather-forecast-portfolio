@@ -5,7 +5,9 @@ import GetWeather from './js/getWeather'
 import GetUserLocationByCoordinatesOrCity from './js/getUserLocationByCoordinatesOrCity'
 import GetMap from './js/getMap'
 import './assets/scss/main.scss'
+import GetBackground from './js/getBackground'
+import UpdateDom from './js/updateDom'
 
-const app = new App('body', State, GetWeather, GetUserLocation, GetUserLocationByCoordinatesOrCity, GetMap);
+export const app = new App('body', State, GetWeather, GetUserLocation, GetUserLocationByCoordinatesOrCity, GetMap, GetBackground, UpdateDom);
 
 app.init();

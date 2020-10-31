@@ -20,16 +20,17 @@ class GetUserLocation {
         return this.transformData(data);
     }
 
-    transformData(data) {
-        const {city, loc} = data;
-        
-        const [latitude,
-            longitude] = [
-            loc.substring(0, loc.indexOf(',')),
-            loc.substring(loc.indexOf(',') + 1, loc.length)
-        ];
 
-        return {city, latitude, longitude}
+    transformData(data) {
+        const {city} = data;
+        
+        // const [latitude,
+        //     longitude] = [
+        //     loc.substring(0, loc.indexOf(',')),
+        //     loc.substring(loc.indexOf(',') + 1, loc.length)
+        //];
+
+        return city;
     }
 }
 

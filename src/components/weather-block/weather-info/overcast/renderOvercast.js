@@ -34,15 +34,15 @@ function renderOvercast({overcast, lang, temperatureType}) {
     <div class="overcast">
     <p class="overcast__title overcast__title--margin">${overcastTitle}</p>
     <div class="overcast__feels-like overcast__feels-like--margin">
-        <p>${feelsLikeTitle}</p>
-        <p>${feelsLike} ${temperatureTypeTitle}</p>
+        <p class="feels-like">${feelsLikeTitle}</p>
+        <p class="feels-like__value">${feelsLike} ${temperatureTypeTitle}</p>
     </div>
     <div class="overcast__wind overcast__wind--margin">
-        <p>${windTitle}</p>
-        <p>${wind} ${windSpeedTitle}</p>
+        <p class="wind">${windTitle}</p>
+        <p class="wind__value">${wind} ${windSpeedTitle}</p>
     </div>
     <div class="overcast__humidity">
-        <p>${humidityTitle}</p>
+        <p class="humidity">${humidityTitle}</p>
         <p>${humidity} %</p>
     </div>
 </div>

@@ -10,10 +10,10 @@ class GetWeather {
     }
 
     async fetchCoordinates(latitude, longitude) {
-        this.targetUrl = `${this.targetUrl}/${latitude},${longitude}`
+        this.finalUrl = `${this.targetUrl}/${latitude},${longitude}`
 
         try {
-            const res = await fetch(this.targetUrl);
+            const res = await fetch(this.finalUrl);
             const data = await Promise.resolve(res.json());
 
             return this.transformData(data)

@@ -23,8 +23,9 @@ class GetUserLocationByCoordinatesOrCity {
         }
     }
 
-    async fetchDataByCity(city) {
-        this.cityUrl = `${this.url}${city}&key=${this.token}&language=${this.lang}&pretty=1`;
+    async fetchDataByCity(city, lang) {
+        this.cityUrl = `${this.url}${city}&key=${this.token}&language=${lang.toLowerCase()}&pretty=1`;
+
         try {
             const res = await fetch(this.cityUrl);
             const data = await Promise.resolve(res.json());

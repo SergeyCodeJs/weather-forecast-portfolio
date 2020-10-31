@@ -6,14 +6,14 @@ function renderMapPosition({mapPosition, lang}) {
   const content = `
   <div class="map-position">
   <div class="map-position__latitude map-position__latitude--margin">
-    <p>${latitudeTitle}:</p>
+    <p class="latitude-title">${latitudeTitle}:</p>
     <p>${latitudeMinutes}</p>
     <p>°</p>
     <p>${latitudeSeconds}</p>
     <p>’</p>
   </div>
   <div class="map-position__longitude map-position__longitude--margin">
-    <p>${longitudeTitle}:</p>
+    <p class="longitude-title">${longitudeTitle}:</p>
     <p>${longitudeMinutes}</p>
     <p>°</p>
     <p>${longitudeSeconds}</p>

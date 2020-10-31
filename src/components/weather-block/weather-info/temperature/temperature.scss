@@ -7,7 +7,7 @@
     display: flex;
 
     &--margin {
-      margin-right: 100px;
+      margin-right: 50px;
     }
 
     p {
@@ -25,5 +25,9 @@
         }
 
     &__img {
-        }
+      width: 150px;
+      height: 150px;
+      min-width: 57px;
+      min-height: 57px;
+    }
 }

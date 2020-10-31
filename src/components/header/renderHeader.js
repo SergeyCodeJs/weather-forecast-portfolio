@@ -1,6 +1,6 @@
 class RenderHeader {
   constructor(rootElementClass, searchBarElementClass, renderSelectLanguage, renderTemperatureTypeSelect, renderSearchBar) {
-    this.rootElement = document.querySelector(rootElementClass);
+    this.rootElementClass = rootElementClass;
     this.searchBarElement = document.querySelector(searchBarElementClass);
     this.renderLanguageSelect = renderSelectLanguage;
     this.renderTemperatureTypeSelect = renderTemperatureTypeSelect;
@@ -8,9 +8,9 @@ class RenderHeader {
   }
 
   getData() {
-    this.languageSelectContent = this.renderLanguageSelect(this.state);
-    this.temperatureTypeSelectContent = this.renderTemperatureTypeSelect(this.state);
-    this.searchBarContent = this.renderSearchBar(this.state);
+    this.languageSelectContent = this.renderLanguageSelect(this.state).trim();
+    this.temperatureTypeSelectContent = this.renderTemperatureTypeSelect(this.state).trim();
+    this.searchBarContent = this.renderSearchBar(this.state).trim();
   }
 
   renderData() {
@@ -20,6 +20,7 @@ class RenderHeader {
   }
 
   init(state) {
+    this.rootElement = document.querySelector(this.rootElementClass);
     this.state = state;
     this.getData();
     this.renderData();
