@@ -1,4 +1,6 @@
 import getInitialHTMLStructure from '../utils/getInitialHTMLStructure'
+import loading from '../components/loading/loading'
+import RenderLoading from '../components/loading/renderLoading'
 import renderSelectLanguage from '../components/header/language-select/renderSelectLanguage'
 import renderTemperatureTypeSelect from '../components/header/temperature-type-select/renderTemperatureTypeSelect'
 import renderSearchBar from '../components/header/search-bar/renderSearchBar'
@@ -46,11 +48,14 @@ class App {
         if (!this.state) {
             this.initializeObjects();
         }
+        this.renderLoading.init(this.state);
         this
             .getMap
             .init();  
         await this.fetchAll();
         this.renderInitialData();
+        this.state.setLoadingState();
+        this.renderLoading.init(this.state);
         this.addListeners();
         this.setBackground(this.state.todayWeather.weatherType, this.state.userLocation.city);
         console.log(this.state)
@@ -124,6 +129,7 @@ class App {
         this
             .state
             .setTemperatureTypeState();
+        this.updateElements();
     }
 
     updateElements() {
@@ -168,6 +174,8 @@ class App {
         this.getMap = new this.GetMap('pk.eyJ1Ijoic2VyZ2V5c3Rla2giLCJhIjoiY2szaHBxamRhMDA0cjNjbXd4Z3JsY2UxciJ9.ByzscoPm' +
                 'D9B153xscOTnww',
         'map', 'mapbox://styles/mapbox/streets-v11', 10, "", "");
+
+        this.renderLoading = new RenderLoading('.page-wrapper', loading)
 
         this.renderHeader = new RenderHeader('.header__left-wrapper', '.search-bar', renderSelectLanguage, renderTemperatureTypeSelect, renderSearchBar),
 

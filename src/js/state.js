@@ -50,18 +50,34 @@ class State {
         ]
     }
 
-    setUserLocationState({latitude, longitude, city, country, flag, latitudeMinutes, latitudeSeconds, longitudeMinutes, longitudeSeconds}) {
+    setUserLocationState({
+        latitude,
+        longitude,
+        city,
+        country,
+        flag,
+        latitudeMinutes,
+        latitudeSeconds,
+        longitudeMinutes,
+        longitudeSeconds
+    }) {
         this.mapPosition = {
-          latitude,
-          longitude,
-          latitudeMinutes,
-          latitudeSeconds,
-          longitudeMinutes,
-          longitudeSeconds,
+            latitude,
+            longitude,
+            latitudeMinutes,
+            latitudeSeconds,
+            longitudeMinutes,
+            longitudeSeconds
         }
         this.userLocation = {
-          city, flag, country
+            city,
+            flag,
+            country
         }
+    }
+
+    setLoadingState() {
+        this.loading = !this.loading;
     }
 
     setWeatherState(data) {
@@ -75,11 +91,15 @@ class State {
     }
 
     setLanguageState() {
-        this.lang === 'Ru' ? this.lang = 'En' : this.lang = 'Ru'
+        this.lang === 'Ru'
+            ? this.lang = 'En'
+            : this.lang = 'Ru'
     }
 
     setTemperatureTypeState() {
-        this.temperatureType === 'C' ? this.temperatureType = 'F' : this.temperatureType = 'C'
+        this.temperatureType === 'C'
+            ? this.temperatureType = 'F'
+            : this.temperatureType = 'C'
     }
 
     getState() {

@@ -1,4 +1,5 @@
-export default () => `<div class="page-wrapper">
+export default function() { 
+  return `<div class="page-wrapper">
 <div class="page-inner-wrapper">
     <div class="header header--margin">
         <div class="header__left-wrapper"></div>
@@ -15,3 +16,4 @@ export default () => `<div class="page-wrapper">
     </div>
 </div>
 </div>`
+}
