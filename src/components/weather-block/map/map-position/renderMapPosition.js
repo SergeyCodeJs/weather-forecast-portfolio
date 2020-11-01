@@ -7,16 +7,16 @@ function renderMapPosition({mapPosition, lang}) {
   <div class="map-position">
   <div class="map-position__latitude map-position__latitude--margin">
     <p class="latitude-title">${latitudeTitle}:</p>
-    <p>${latitudeMinutes}</p>
+    <p class="latitude-minutes">${latitudeMinutes}</p>
     <p>°</p>
-    <p>${latitudeSeconds}</p>
+    <p class="latitude-seconds">${latitudeSeconds}</p>
     <p>’</p>
   </div>
   <div class="map-position__longitude map-position__longitude--margin">
     <p class="longitude-title">${longitudeTitle}:</p>
-    <p>${longitudeMinutes}</p>
+    <p class="longitude-minutes">${longitudeMinutes}</p>
     <p>°</p>
-    <p>${longitudeSeconds}</p>
+    <p class="longitude-seconds">${longitudeSeconds}</p>
     <p>’</p>
   </div>
 </div>

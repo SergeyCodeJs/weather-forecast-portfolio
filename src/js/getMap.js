@@ -36,7 +36,7 @@ class GetMap {
                     'get',
                     'name_' + "ru"
                     ]);
-            }, 2000)
+            }, 100)
         } catch {
         }
         

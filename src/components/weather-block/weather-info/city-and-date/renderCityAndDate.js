@@ -7,7 +7,7 @@ function renderCityAndDate({userLocation, dateData}) {
     <div class="place-info place-info--padding">
         <p class="place-info__city">${city},</p>
         <p class="place-info__country">${country}</p>
-        <p>${flag}</p>
+        <p class="place-info__flag">${flag}</p>
     </div>
     <div class="date-info date-info--padding">
         <p class="data-info__week-day">${weekDay}</p>

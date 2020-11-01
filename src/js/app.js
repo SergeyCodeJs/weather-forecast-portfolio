@@ -32,7 +32,7 @@ class App {
     }
 
     async fetchAll() {
-        const city = await this.getLocation();
+        const city = this.state.userLocation.city || await this.getLocation();
         const coordinatesAndCityData = await this.getCoordinatesAndCityData(city);
         this.updateStateUserLocation(coordinatesAndCityData);
         const weatherData = await this.getWeatherData();
@@ -102,6 +102,8 @@ class App {
 
         languageSwitchEl.addEventListener('click', this.changeLanguageHandler.bind(this));
         temperatureTypeSwitchEl.addEventListener('click', this.changeTemperatureTypeHandler.bind(this));
+        cityInputEl.addEventListener('input', this.changeCityInputHandler.bind(this));
+        cityInputBtn.addEventListener('click', this.submitChangeCityHandler.bind(this));
     }
 
     async setBackground(weather, city) {
@@ -122,7 +124,7 @@ class App {
             .state
             .setLanguageState();
         await this.fetchAll();
-        this.updateElements()
+        await this.updateElements()
     }
 
     changeTemperatureTypeHandler() {
@@ -130,6 +132,25 @@ class App {
             .state
             .setTemperatureTypeState();
         this.updateElements();
+    }
+
+    changeCityInputHandler(e) {
+        e.preventDefault();
+        if (e.target.value.length > 13) {
+            e.target.value = e.target.value.substring(0, 13);
+        }
+        e.target.value = e.target.value.toUpperCase();
+    }
+
+    async submitChangeCityHandler(e) {
+        e.preventDefault();
+        const city = document.getElementById('search').value;
+        if (city) {
+            this.updateStateCity(city);
+            await this.fetchAll();
+            this.updateElements();
+            this.setBackground(this.state.todayWeather.weatherType, this.state.userLocation.city);
+        }
     }
 
     updateElements() {
@@ -142,11 +163,18 @@ class App {
         this.
             updateDom.
             updateButtonsNames(this.state);
-        this.updateDom.
+        this.
+            updateDom.
             updateLatitudeAndLongitudeNames(this.state);
-        this.updateDom.updateWeekDays(this.state);
-        this.getMap.
-        changeMapLanguage(this.state);
+        this.
+            updateDom.
+            updateWeekDays(this.state);
+        this.
+            updateDom.
+            updateCloudsIcons(this.state)
+        this.
+            getMap.
+            changeMapLanguage(this.state);
     }
 
 
@@ -160,6 +188,10 @@ class App {
         this
             .state
             .setWeatherState(data);
+    }
+
+    updateStateCity(city) {
+        this.state.setCity(city);
     }
 
     initializeObjects() {
@@ -185,7 +217,7 @@ class App {
         
         this.getBackground = new this.GetBackground('adec34c89d01fcc2356d15c91d8510d9f7680a908b9447ff672db9fd3f6365e6', 'https://api.unsplash.com/photos/random?');
 
-        this.updateDom = new this.UpdateDom('.search-bar__input', '.search-bar__button', '.place-info__city', '.place-info__country', '.tomorrow-day', '.after-tomorrow-day', '.after-after-tomorrow-day', '.overcast__title', '.feels-like', '.feels-like__value', '.wind', '.wind__value', '.humidity', '.longitude-title', '.latitude-title');
+        this.updateDom = new this.UpdateDom('.search-bar__input', '.search-bar__button', '.place-info__city', '.place-info__country', '.place-info__flag', '.tomorrow-day', '.after-tomorrow-day', '.after-after-tomorrow-day', '.overcast__title', '.feels-like', '.feels-like__value', '.wind', '.wind__value', '.humidity', '.temperature__number', '.tomorrow-temperature', '.after-tomorrow-temperature', '.after-after-tomorrow-temperature', '.temperature__img', '.tomorrow-clouds', '.after-tomorrow-clouds', '.after-after-tomorrow-clouds', '.longitude-title', '.latitude-title', '.latitude-minutes', '.latitude-seconds', '.longitude-minutes', '.longitude-seconds');
     }
 }
 

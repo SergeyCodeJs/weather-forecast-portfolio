@@ -102,6 +102,10 @@ class State {
             : this.temperatureType = 'C'
     }
 
+    setCity(city) {
+        this.userLocation.city = city;
+    }
+
     getState() {
         return {
             loading: this.loading,
