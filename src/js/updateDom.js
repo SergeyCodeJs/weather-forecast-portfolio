@@ -2,7 +2,7 @@ import translateWeekDay from '../utils/translateWeekDay'
 import getWeatherIcon from '../utils/getWeatherIcon'
 
 class UpdateDom {
-    constructor(searchPlaceholderClass, searchBtnClass, cityClass, countryClass, flagClass, tomorrowDayClass, afterTomorrowDayClass, afterAfterTomorrowDayClass, forecastTitleClass, feelsLikeClass, feelsLikeValueClass, windClass, windValueClass, humidityClass, temperatureClass, tomorrowTemperatureClass, afterTomorrowTemperatureClass, afterAfterTomorrowTemperatureClass, todayCloudClass, tomorrowCloudsClass, afterTomorrowCloudsClass, afterAfterTomorrowCloudsClass, longitudeClass, latitudeClass, latitudeMinutesClass, latitudeSecondsClass, longitudeMinutesClass, longitudeSecondsClass) {
+    constructor(searchPlaceholderClass, searchBtnClass, cityClass, countryClass, flagClass, tomorrowDayClass, afterTomorrowDayClass, afterAfterTomorrowDayClass, forecastTitleClass, feelsLikeClass, feelsLikeValueClass, windClass, windValueClass, humidityClass, temperatureClass, tomorrowTemperatureClass, afterTomorrowTemperatureClass, afterAfterTomorrowTemperatureClass, todayCloudClass, tomorrowCloudsClass, afterTomorrowCloudsClass, afterAfterTomorrowCloudsClass, longitudeClass, latitudeClass, latitudeMinutesClass, latitudeSecondsClass, longitudeMinutesClass, longitudeSecondsClass, temperatureSignClass, tomorrowTemperatureSignClass, afterTomorrowTemperatureSignClass, afterAfterTomorrowTemperatureSignClass) {
         this.searchPlaceholderClass = searchPlaceholderClass;
         this.searchBtnClass = searchBtnClass;
         this.cityClass = cityClass;
@@ -31,6 +31,20 @@ class UpdateDom {
         this.latitudeSecondsClass = latitudeSecondsClass;
         this.longitudeMinutesClass = longitudeMinutesClass;
         this.longitudeSecondsClass = longitudeSecondsClass;
+        this.temperatureSignClass = temperatureSignClass;
+        this.tomorrowTemperatureSignClass = tomorrowTemperatureSignClass;
+        this.afterTomorrowTemperatureSignClass = afterTomorrowTemperatureSignClass;
+        this.afterAfterTomorrowTemperatureSignClass = afterAfterTomorrowTemperatureSignClass;
+    }
+
+    updateAllDOM(state) {
+      this.updateUserLocation(state);
+      this.updateOvercast(state);
+      this.updateButtonsNames(state);
+      this.updateLatitudeAndLongitudeNames(state);
+      this.updateWeekDays(state);
+      this.updateCloudsIcons(state);
+      this.updateTempTypeSign(state);
     }
 
     updateUserLocation({userLocation}) {
@@ -186,6 +200,19 @@ class UpdateDom {
         const cloudIcons = [todayClouds, tomorrowClouds, afterTomorrowClouds, afterAfterTomorrowClouds]
 
         elements.forEach((el, index) => el.src = cloudIcons[index]);
+    }
+
+    updateTempTypeSign({temperatureType}) {
+      const elements = [
+        document.querySelector(this.temperatureSignClass),
+        document.querySelector(this.tomorrowTemperatureSignClass),
+        document.querySelector(this.afterTomorrowTemperatureSignClass),
+        document.querySelector(this.afterAfterTomorrowTemperatureSignClass),
+    ]
+
+    let data = temperatureType === 'C' ? new Array(4).fill('°C') : new Array(4).fill('°F');
+    
+    this.update(elements, data)
     }
 
     update(elements, data) {

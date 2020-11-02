@@ -105,21 +105,6 @@ class State {
     setCity(city) {
         this.userLocation.city = city;
     }
-
-    getState() {
-        return {
-            loading: this.loading,
-            lang: this.lang,
-            temperatureType: this.temperatureType,
-            userLocation: this.userLocation,
-            todayWeather: this.todayWeather,
-            dateData: this.dateData,
-            time: this.time,
-            mapPosition: this.mapPosition,
-            overcast: this.overcast,
-            daysOvercast: this.daysOvercast
-        }
-    }
 }
 
 export default State

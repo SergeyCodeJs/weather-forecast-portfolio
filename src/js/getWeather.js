@@ -1,4 +1,4 @@
-import convertFarToCel from '../utils/convertFarToCel'
+import {convertFarToCel} from '../utils/convertTemperature'
 import getWeekDay from '../utils/getWeekDay'
 import getAverageTemperature from '../utils/getAverageTemperature'
 
@@ -9,26 +9,27 @@ class GetWeather {
         this.targetUrl = `https://cors-anywhere.herokuapp.com/${this.url}${token}/`;
     }
 
-    async fetchCoordinates(latitude, longitude) {
+    async fetchCoordinates(latitude, longitude, tempType) {
         this.finalUrl = `${this.targetUrl}/${latitude},${longitude}`
 
         try {
             const res = await fetch(this.finalUrl);
             const data = await Promise.resolve(res.json());
 
-            return this.transformData(data)
+            return this.transformData(data, tempType)
         } catch (err) {
             throw new Error(err);
         }
     }
 
-    transformData(data) {
+    transformData(data, tempType) {
+        const convertFunction = tempType === 'C' ? convertFarToCel : (data) => parseInt(data);
         const todayWeather = {
-            temperature: convertFarToCel(data.currently.temperature),
+            temperature: convertFunction(data.currently.temperature),
             weatherType: data.currently.icon
         }
         const overcast = {
-            feelsLike: convertFarToCel(data.currently.apparentTemperature),
+            feelsLike: convertFunction(data.currently.apparentTemperature),
             humidity: data.currently.humidity,
             wind: data.currently.windSpeed
         }
@@ -36,8 +37,8 @@ class GetWeather {
 
         function getNextTemperature(data, dayNumber, dateNumberInAPI) {
             const weatherType = data.daily.data[dateNumberInAPI].icon;
-            const maxTemperature = convertFarToCel(data.daily.data[dateNumberInAPI].temperatureMax);
-            const minTemperature = convertFarToCel(data.daily.data[dateNumberInAPI].temperatureMin);
+            const maxTemperature = convertFunction(data.daily.data[dateNumberInAPI].temperatureMax);
+            const minTemperature = convertFunction(data.daily.data[dateNumberInAPI].temperatureMin);
             const temperature = `${getAverageTemperature(maxTemperature),
                 (minTemperature)}`;
 

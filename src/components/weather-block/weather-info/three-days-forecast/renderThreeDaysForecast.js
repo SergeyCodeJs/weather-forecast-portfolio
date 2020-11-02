@@ -20,21 +20,21 @@ function renderThreeDaysForecast({daysOvercast, lang, temperatureType}) {
         <h2 class="tomorrow-day">${translateWeekDay(tomorrow.weekDay, lang)}</h2>
         <div class="day__temperature-wrapper">
             <p class="tomorrow-temperature">${tomorrow.temperature}</p>
-            <p>${temperatureSign}</p>
+            <p class="tomorrow-temperature-sign">${temperatureSign}</p>
             <img class="tomorrow-clouds" src=${tomorrowWeatherType} alt="tomorrowWeather"></div>
         </div>
         <div class="day day--margin">
             <h2 class="after-tomorrow-day">${translateWeekDay(afterTomorrow.weekDay, lang)}</h2>
             <div class="day__temperature-wrapper">
                 <p class="after-tomorrow-temperature">${afterTomorrow.temperature}</p>
-                <p>${temperatureSign}</p>
+                <p class="after-tomorrow-temperature-sign">${temperatureSign}</p>
                 <img class="after-tomorrow-clouds" src=${afterTomorrowWeatherType} alt="afterTomorrowWeather"></div>
             </div>
             <div class="day">
                 <h2 class="after-after-tomorrow-day">${translateWeekDay(afterAfterTomorrow.weekDay, lang)}</h2>
                 <div class="day__temperature-wrapper">
                     <p class="after-after-tomorrow-temperature">${afterAfterTomorrow.temperature}</p>
-                    <p>${temperatureSign}</p>
+                    <p class="after-after-tomorrow-temperature-sign">${temperatureSign}</p>
                     <img class="after-after-tomorrow-clouds" src=${afterAfterTomorrowWeatherType} alt="afterAfterTomorrowWeatherType"></div>
                 </div>
             </div>

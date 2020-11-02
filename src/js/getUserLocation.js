@@ -23,13 +23,6 @@ class GetUserLocation {
 
     transformData(data) {
         const {city} = data;
-        
-        // const [latitude,
-        //     longitude] = [
-        //     loc.substring(0, loc.indexOf(',')),
-        //     loc.substring(loc.indexOf(',') + 1, loc.length)
-        //];
-
         return city;
     }
 }

@@ -1,17 +1,6 @@
 import getInitialHTMLStructure from '../utils/getInitialHTMLStructure'
-import loading from '../components/loading/loading'
-import RenderLoading from '../components/loading/renderLoading'
-import renderSelectLanguage from '../components/header/language-select/renderSelectLanguage'
-import renderTemperatureTypeSelect from '../components/header/temperature-type-select/renderTemperatureTypeSelect'
-import renderSearchBar from '../components/header/search-bar/renderSearchBar'
-import RenderHeader from '../components/header/renderHeader'
-import RenderWeatherInfo from '../components/weather-block/weather-info/renderWeatherInfo';
-import renderCityAndDate from '../components/weather-block/weather-info/city-and-date/renderCityAndDate'
-import renderTemperature from '../components/weather-block/weather-info/temperature/renderTemperature'
-import renderOvercast from '../components/weather-block/weather-info/overcast/renderOvercast'
-import renderThreeDaysForecast from '../components/weather-block/weather-info/three-days-forecast/renderThreeDaysForecast'
-import RenderMap from '../components/weather-block/map/renderMap'
-import renderMapPosition from '../components/weather-block/map/map-position/renderMapPosition'
+import initializeRenderObjects from './initializeRenderObjects'
+import {convertFarToCel} from '../utils/convertTemperature'
 
 class App {
     constructor(rootElement, State, GetWeather, GetUserLocation, GetUserLocationByCoordinatesOrCity, GetMap, GetBackground, UpdateDom) {
@@ -25,10 +14,34 @@ class App {
         this.UpdateDom = UpdateDom;
     }
 
+    async init() {
+        this.buildHtmlStructure();
+        if (!this.state) {
+            this.initializeObjects();
+        }
+        this
+            .renderLoading
+            .init(this.state);
+        this
+            .getMap
+            .init();
+        await this.fetchAll();
+        this.renderInitialData();
+        this
+            .state
+            .setLoadingState();
+        this
+            .renderLoading
+            .init(this.state);
+        this.setBackground(this.state.todayWeather.weatherType, this.state.userLocation.city);
+        console.log(this.state);
+        this.addListeners();
+    }
+
     buildHtmlStructure() {
         this
             .rootElement
-            .insertAdjacentHTML('beforeend', getInitialHTMLStructure())
+            .insertAdjacentHTML('beforeend', getInitialHTMLStructure());
     }
 
     async fetchAll() {
@@ -41,24 +54,6 @@ class App {
         this
             .getMap
             .jumpToCoordinates(longitude, latitude);
-    }
-
-    async init() {
-        this.buildHtmlStructure();
-        if (!this.state) {
-            this.initializeObjects();
-        }
-        this.renderLoading.init(this.state);
-        this
-            .getMap
-            .init();  
-        await this.fetchAll();
-        this.renderInitialData();
-        this.state.setLoadingState();
-        this.renderLoading.init(this.state);
-        this.addListeners();
-        this.setBackground(this.state.todayWeather.weatherType, this.state.userLocation.city);
-        console.log(this.state)
     }
 
     renderInitialData() {
@@ -91,7 +86,7 @@ class App {
         const {latitude, longitude} = this.state.mapPosition;
         return await this
             .getWeather
-            .fetchCoordinates(latitude, longitude);
+            .fetchCoordinates(latitude, longitude, this.state.temperatureType);
     }
 
     addListeners() {
@@ -108,14 +103,25 @@ class App {
 
     async setBackground(weather, city) {
         try {
-            this.background = await this.getBackground.fetchBackground(weather, city);
+            this.background = await this
+                .getBackground
+                .fetchBackground(weather, city);
             const {url} = this.background;
-            
+
             if (url) {
-                document.querySelector('.page-wrapper').style.background = `no-repeat url("${url}")`
-                document.querySelector('.page-wrapper').style.backgroundSize = `cover`
+                renderBackground(url);
             }
-        } catch(e) {
+        } catch (e) {}
+
+        function renderBackground(url) {
+            document
+                .querySelector('.page-wrapper')
+                .style
+                .background = `no-repeat url("${url}")`
+            document
+                .querySelector('.page-wrapper')
+                .style
+                .backgroundSize = `cover`
         }
     }
 
@@ -127,24 +133,33 @@ class App {
         await this.updateElements()
     }
 
-    changeTemperatureTypeHandler() {
+    async changeTemperatureTypeHandler() {
         this
             .state
             .setTemperatureTypeState();
+        await this.fetchAll();
         this.updateElements();
     }
 
     changeCityInputHandler(e) {
         e.preventDefault();
         if (e.target.value.length > 13) {
-            e.target.value = e.target.value.substring(0, 13);
+            e.target.value = e
+                .target
+                .value
+                .substring(0, 13);
         }
-        e.target.value = e.target.value.toUpperCase();
+        e.target.value = e
+            .target
+            .value
+            .toUpperCase();
     }
 
     async submitChangeCityHandler(e) {
         e.preventDefault();
-        const city = document.getElementById('search').value;
+        const city = document
+            .getElementById('search')
+            .value;
         if (city) {
             this.updateStateCity(city);
             await this.fetchAll();
@@ -156,27 +171,8 @@ class App {
     updateElements() {
         this
             .updateDom
-            .updateUserLocation(this.state);
-        this
-            .updateDom
-            .updateOvercast(this.state);
-        this.
-            updateDom.
-            updateButtonsNames(this.state);
-        this.
-            updateDom.
-            updateLatitudeAndLongitudeNames(this.state);
-        this.
-            updateDom.
-            updateWeekDays(this.state);
-        this.
-            updateDom.
-            updateCloudsIcons(this.state)
-        this.
-            getMap.
-            changeMapLanguage(this.state);
+            .updateAllDOM(this.state);
     }
-
 
     updateStateUserLocation(data) {
         this
@@ -191,7 +187,9 @@ class App {
     }
 
     updateStateCity(city) {
-        this.state.setCity(city);
+        this
+            .state
+            .setCity(city);
     }
 
     initializeObjects() {
@@ -207,17 +205,16 @@ class App {
                 'D9B153xscOTnww',
         'map', 'mapbox://styles/mapbox/streets-v11', 10, "", "");
 
-        this.renderLoading = new RenderLoading('.page-wrapper', loading)
+        const renderObjects = initializeRenderObjects();
 
-        this.renderHeader = new RenderHeader('.header__left-wrapper', '.search-bar', renderSelectLanguage, renderTemperatureTypeSelect, renderSearchBar),
+        this.renderLoading = renderObjects.renderLoading;
+        this.renderHeader = renderObjects.renderHeader;
+        this.renderWeatherInfo = renderObjects.renderWeatherInfo;
+        this.renderMap = renderObjects.renderMap;
 
-        this.renderWeatherInfo = new RenderWeatherInfo('.weather-info', '.temperature-overcast__wrapper', renderCityAndDate, renderTemperature, renderOvercast, renderThreeDaysForecast);
-
-        this.renderMap = new RenderMap('.map-wrapper', renderMapPosition);
-        
         this.getBackground = new this.GetBackground('adec34c89d01fcc2356d15c91d8510d9f7680a908b9447ff672db9fd3f6365e6', 'https://api.unsplash.com/photos/random?');
 
-        this.updateDom = new this.UpdateDom('.search-bar__input', '.search-bar__button', '.place-info__city', '.place-info__country', '.place-info__flag', '.tomorrow-day', '.after-tomorrow-day', '.after-after-tomorrow-day', '.overcast__title', '.feels-like', '.feels-like__value', '.wind', '.wind__value', '.humidity', '.temperature__number', '.tomorrow-temperature', '.after-tomorrow-temperature', '.after-after-tomorrow-temperature', '.temperature__img', '.tomorrow-clouds', '.after-tomorrow-clouds', '.after-after-tomorrow-clouds', '.longitude-title', '.latitude-title', '.latitude-minutes', '.latitude-seconds', '.longitude-minutes', '.longitude-seconds');
+        this.updateDom = new this.UpdateDom('.search-bar__input', '.search-bar__button', '.place-info__city', '.place-info__country', '.place-info__flag', '.tomorrow-day', '.after-tomorrow-day', '.after-after-tomorrow-day', '.overcast__title', '.feels-like', '.feels-like__value', '.wind', '.wind__value', '.humidity', '.temperature__number', '.tomorrow-temperature', '.after-tomorrow-temperature', '.after-after-tomorrow-temperature', '.temperature__img', '.tomorrow-clouds', '.after-tomorrow-clouds', '.after-after-tomorrow-clouds', '.longitude-title', '.latitude-title', '.latitude-minutes', '.latitude-seconds', '.longitude-minutes', '.longitude-seconds', '.temperature__sign', '.tomorrow-temperature-sign', '.after-tomorrow-temperature-sign', '.after-after-tomorrow-temperature-sign');
     }
 }
 
